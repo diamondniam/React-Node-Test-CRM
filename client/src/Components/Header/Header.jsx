@@ -158,7 +158,9 @@ const Header = () => {
         <p className="text-2xl font-Mulish">Notifications</p>
         <Close className="text-white mt-1 cursor-pointer ml-28" />
       </Toolbar>
+
       <Divider />
+
       <List>
         {["All mail", "Trash", "Spam"].map((text, index) => (
           <React.Fragment key={index}>
