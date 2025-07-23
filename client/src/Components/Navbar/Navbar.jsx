@@ -102,6 +102,7 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
   const { tasks } = useSelector((state) => state.task);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   /////////////////////////////////////////// STATES ////////////////////////////////////////////////
   const [date, setDate] = useState(new Date());
@@ -117,6 +118,7 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
   useEffect(() => {
     dispatch(getNotifications());
     dispatch(getTasks());
+    console.log(loggedUser);
   }, []);
 
   /////////////////////////////////////////// FUNCTIONS ////////////////////////////////////////////
@@ -146,6 +148,8 @@ const Navbar = ({ setShowSidebar, showSidebar, open, setOpen }) => {
             <div>
               <p className="text-sky-400 text-xl gap-1 flex items-center">
                 <PiTimerLight className="text-[25px]" /> {date.toLocaleTimeString()}
+
+                {userTimezone && <span>({userTimezone})</span>}
               </p>
             </div>
           </div>

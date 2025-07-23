@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { Add, Close } from "@mui/icons-material";
 import { Path } from "../../utils";
 import { Chip, FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
@@ -8,6 +8,7 @@ import { FiFilter } from "react-icons/fi";
 import CreateUser from "./CreateEmployee";
 import Filter from "./Filter";
 import { searchUserReducer } from "../../redux/reducer/user";
+import ClientCreation from "./ClientCreation";
 
 const Topbar = ({ view, setView, setIsFiltered, isFiltered }) => {
 
@@ -120,10 +121,26 @@ const Topbar = ({ view, setView, setIsFiltered, isFiltered }) => {
                 />
               </FormControl>
             </div>
+
+            <div className="flex items-center gap-2">
+              <Tooltip title="Add New Client" placement="top" arrow>
+                <div onClick={handleCreateopen("body")}>
+                  <button className="bg-primary-red hover:bg-red-400 transition-all text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-xl">
+                    <Add />
+                  </button>
+                </div>
+              </Tooltip>
+            </div>
           </div>
         )}
       </div>
-      <CreateUser open={open} scroll={scroll} setOpen={setOpen} />
+
+      {pathArr.includes("employees") && (
+        <CreateUser open={open} scroll={scroll} setOpen={setOpen} />
+      )}
+      {pathArr.includes("clients") && (
+        <ClientCreation open={open} scroll={scroll} setOpen={setOpen} />
+      )}
       <Filter open={openFilters} setOpen={setOpenFilters} setIsFiltered={setIsFiltered} />
     </div>
   );

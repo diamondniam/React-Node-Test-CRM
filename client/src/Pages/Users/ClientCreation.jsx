@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createEmployee } from "../../redux/action/user";
+import { createClient } from "../../redux/action/user";
 import {
   Divider,
   Dialog,
@@ -16,54 +16,41 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-const CreateUser = ({ open, setOpen, scroll }) => {
+const ClientCreation = ({ open, setOpen, scroll }) => {
   //////////////////////////////////////// VARIABLES /////////////////////////////////////
   const { isFetching } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const initialEmployeeState = {
+  const initialClientState = {
     firstName: "",
     lastName: "",
     username: "",
     password: "",
+    phone: "",
     email: "",
-  }
-  const initialEmployeeStateErrors = {
-    firstName: false,
-    lastName: false,
-    username: false,
-    phone: false,
-    email: false,
   }
 
   //////////////////////////////////////// STATES /////////////////////////////////////
-  const [employeeData, setEmployeeData] = useState(initialEmployeeState);
-  const [errors, setErrors] = useState(initialEmployeeStateErrors);
+  const [clientData, setClientData] = useState(initialClientState);
 
   //////////////////////////////////////// USE EFFECTS /////////////////////////////////////
 
   //////////////////////////////////////// FUNCTIONS /////////////////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { firstName, lastName, username, password, phone, email } = employeeData
+    const { firstName, lastName, username, password, phone, email } = clientData
     if (!firstName || !lastName || !username || !password || !phone  )
       return alert("Make sure to provide all the fields")
-    dispatch(createEmployee(employeeData, setOpen));
-    setEmployeeData(initialEmployeeState)
+    dispatch(createClient(clientData, setOpen));
+    setClientData(initialClientState)
   };
 
   const handleChange = (field, value) => {
-    setEmployeeData((prevFilters) => ({ ...prevFilters, [field]: value, }));
-
-    if (value.trim() === '') {
-      setErrors((prev) => ({ ...prev, [field]: 'This field is required' }));
-    } else {
-      setErrors((prev) => ({ ...prev, [field]: '' }));
-    }
+    setClientData((prevFilters) => ({ ...prevFilters, [field]: value, }));
   };
 
   const handleClose = () => {
     setOpen(false);
-    setEmployeeData(initialEmployeeState)
+    setClientData(initialClientState)
   };
 
   return (
@@ -78,7 +65,7 @@ const CreateUser = ({ open, setOpen, scroll }) => {
         maxWidth="sm"
         aria-describedby="alert-dialog-slide-description">
         <DialogTitle className="flex items-center justify-between">
-          <div className="text-sky-400 font-primary">Add New Employee</div>
+          <div className="text-sky-400 font-primary">Add New Client</div>
           <div className="cursor-pointer" onClick={handleClose}>
             <PiXLight className="text-[25px]" />
           </div>
@@ -87,7 +74,7 @@ const CreateUser = ({ open, setOpen, scroll }) => {
           <div className="flex flex-col gap-2 p-3 text-gray-500 font-primary">
             <div className="text-xl flex justify-start items-center gap-2 font-normal">
               <PiNotepad size={23} />
-              <span>Employee Detials</span>
+              <span>Client Detials</span>
             </div>
             <Divider />
             <table className="mt-4">
@@ -97,10 +84,8 @@ const CreateUser = ({ open, setOpen, scroll }) => {
                   <TextField
                     size="small"
                     fullWidth
-                    value={employeeData.firstName}
-                    error={Boolean(errors.firstName)}
-                    
-                    helperText={errors.firstName}onChange={(e) => handleChange('firstName', e.target.value)}
+                    value={clientData.firstName}
+                    onChange={(e) => handleChange('firstName', e.target.value)}
                   />
                 </td>
               </tr>
@@ -110,10 +95,8 @@ const CreateUser = ({ open, setOpen, scroll }) => {
                   <TextField
                     size="small"
                     fullWidth
-                    value={employeeData.lastName}
-                    error={Boolean(errors.lastName)}
-                    
-                    helperText={errors.lastName}onChange={(e) => handleChange('lastName', e.target.value)}
+                    value={clientData.lastName}
+                    onChange={(e) => handleChange('lastName', e.target.value)}
                   />
                 </td>
               </tr>
@@ -123,10 +106,8 @@ const CreateUser = ({ open, setOpen, scroll }) => {
                   <TextField
                     size="small"
                     fullWidth
-                    value={employeeData.username}
-                    error={Boolean(errors.username)}
-                    
-                    helperText={errors.username}onChange={(e) => handleChange('username', e.target.value)}
+                    value={clientData.username}
+                    onChange={(e) => handleChange('username', e.target.value)}
                   />
                 </td>
               </tr>
@@ -137,10 +118,20 @@ const CreateUser = ({ open, setOpen, scroll }) => {
                     size="small"
                     fullWidth
                     placeholder="Optional"
-                    error={Boolean(errors.email)}
-                    value={employeeData.email}
-                    helperText={errors.email}
+                    value={clientData.email}
                     onChange={(e) => handleChange('email', e.target.value)}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td className="flex items-start pt-2 text-lg">Password </td>
+                <td className="pb-4">
+                  <TextField
+                    type="password"
+                    value={clientData.password}
+                    onChange={(e) => handleChange("password", e.target.value)}
+                    fullWidth
+                    size="small"
                   />
                 </td>
               </tr>
@@ -150,10 +141,8 @@ const CreateUser = ({ open, setOpen, scroll }) => {
                   <TextField
                     type="number"
                     size="small"
-                    value={employeeData.phone}
-                    error={Boolean(errors.phone)}
+                    value={clientData.phone}
                     fullWidth
-                    helperText={errors.phone}
                     onChange={(e) => handleChange("phone", e.target.value)}
                   />
                 </td>
@@ -182,4 +171,4 @@ const CreateUser = ({ open, setOpen, scroll }) => {
   );
 };
 
-export default CreateUser;
+export default ClientCreation;
